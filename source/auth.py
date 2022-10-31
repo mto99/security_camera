@@ -1,4 +1,3 @@
-import email
 from urllib import request
 from flask import Blueprint, render_template, redirect
 from flask import url_for, request, flash
