@@ -3,5 +3,5 @@ urllib3
 Flask-Login
 flask-sqlalchemy
 Werkzeug
-opencv-python
-opencv-contrib-python
+#opencv-python
+#opencv-contrib-python
