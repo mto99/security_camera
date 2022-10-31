@@ -2,5 +2,5 @@ Flask
 urllib3
 Flask-Login
 Werkzeug
-opencv-python
-opencv-contrib-python
+#opencv-python
+#opencv-contrib-python
