@@ -1,10 +1,66 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html>
 
-{% block content %}
-<h1 class="title">
-  Flask Login Example
-</h1>
-<h2 class="subtitle">
-  Easy authentication and authorization in Flask.
-</h2>
-{% endblock %}
+<head>
+    <title>Security Camera</title>
+    
+    <style>
+        body{
+            background-color: rgb(30, 209, 141);
+            display: flex;
+            flex-direction: column;
+        }
+
+        h1{
+            color: whitesmoke;
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 10px;
+        }
+
+        .bwhite{
+            background-color: whitesmoke;
+        }
+
+        .buttons_form{
+            /*margin: 20px 0;*/
+        }
+
+        .bttn{
+            height: 40px;
+            width: 100px;
+            border: 2px solid gray;
+            border-radius: 7px;
+            margin: 0 10px ;
+            font-size: 18px;
+        }
+        .bttn:hover{
+            color: white;
+            background-color: rgb(30, 209, 141);
+            cursor: pointer;
+            transition: 0.5s;
+        }
+
+
+    </style>
+</head>
+
+
+<body>
+    <div class="header">
+        <h1> SECURITY CAMERA</h1>
+    </div>
+
+    <div class="form" >
+        <form class="buttons_form" method="post" action="{{ url_for('button_request') }}">
+			<input class="bwhite bttn" type="submit" value="Capture" name="capture"/>
+			<input class="bwhite bttn" type="submit" value="Grey" name="grey" />
+			<input class="bwhite bttn" type="submit" value="Negative" name="negative"/>
+
+		</form>
+    </div>
+
+    <div>
+        <img src="{{ url_for('camera') }}" height="auto">
+    </div>
+
+</body>
