@@ -22,6 +22,7 @@ def frames():
 
             if (negative):
                 frame = cv.bitwise_not(frame)
+                cv.putText(frame,"N",(30,50),cv.FONT_HERSHEY_SIMPLEX, 1, (20,20,255), 2)
 
             if (capture):
                 capture=0 # reset var
@@ -54,11 +55,12 @@ def save_capture(method:str, frame):
     For detect: '/app/images/detected'
     """
     timestamp = datetime.now()
-    filename = "img_{}.png".format(str(timestamp).replace(":",''))
-    path = ""
+    filename = "img_{}".format(str(timestamp).replace(":",'').replace(" ",'_').replace(".","_"))
+    filename = filename+".png"
+    filepath = ""
     if method=="capture":
         path = "/app/images/captured/"
     elif method == "detect":
         path = "/app/images/detected/"
-
-    cv.imwrite(path.join([path, filename]), frame)
+    filepath = filepath+filename
+    cv.imwrite(filepath, frame)
