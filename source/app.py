@@ -27,8 +27,6 @@ def button_request():
         # Button requests
         if request.form.get('capture') == 'Capture':
             process.capture = 1
-        elif request.form.get('grey') == 'Grey':
-            process.grey = not process.grey
         elif request.form.get('negative') == 'Negativ':
             process.negative = not process.negative
 
@@ -36,11 +34,14 @@ def button_request():
         return render_template('index.html')
     return render_template('index.html')
 
+@app.route('/images')
+def get_images():
+    return render_template('images.html')
 
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
-    app.run(debug=True, host='0.0.0.0', port=port)
+    app.run(debug=False, host='0.0.0.0', port=port)
     #app.run()
 
 process.cam.release()

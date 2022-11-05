@@ -4,9 +4,8 @@ from os import path
 import lib.detection as detection
 
 
-global grey, capture, negative
+global capture, negative
 capture = 0
-grey = 0
 negative = 0
 cam = cv.VideoCapture(0) # 0 for system cam
 
@@ -20,9 +19,6 @@ def frames():
         # check if cam is available
         success, frame = cam.read()
         if success:
-
-            if (grey):
-                frame = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
 
             if (negative):
                 frame = cv.bitwise_not(frame)
