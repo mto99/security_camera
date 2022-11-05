@@ -55,12 +55,14 @@ def save_capture(method:str, frame):
     For detect: '/app/images/detected'
     """
     timestamp = datetime.now()
-    filename = "img_{}".format(str(timestamp).replace(":",'').replace(" ",'_').replace(".","_"))
+    filename = "img_{}".format(str(timestamp).replace(":",'')
+                                            .replace(" ",'_')
+                                            .replace(".","_"))
     filename = filename+".png"
-    filepath = ""
-    if method=="capture":
-        path = "/app/images/captured/"
-    elif method == "detect":
-        path = "/app/images/detected/"
+    filepath = "C:/Users/MTO/Desktop/IM/"
+    # if method=="capture":
+    #     path = "/app/images/captured/"
+    # elif method == "detect":
+    #     path = "/app/images/detected/"
     filepath = filepath+filename
     cv.imwrite(filepath, frame)
