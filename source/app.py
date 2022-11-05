@@ -1,27 +1,47 @@
-from flask import Flask, render_template, Response
+from flask import Flask, render_template, Response, request
 import os
-
-app = Flask(__name__)
-
-logged_in=False
+from cv2 import destroyAllWindows
+import lib.processing as process
 
 
-@app.route("/")
+app = Flask(__name__, template_folder='./templates')
+
+#logged_in=False
+
+
+@app.route('/')
 def index():
-    return render_template("index.html")
+    return render_template('index.html')
 
 
-@app.route("/camera")
+@app.route('/camera')
 def camera():
-    return Response()
+    return Response(process.frames(), \
+                    mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
-@app.route("/login")
-def login():
-    # verify user
-    return render_template("login.html")
+@app.route('/requests', methods=['POST','GET']) 
+def button_request():
 
-if __name__ == "__main__":
+    if request.method == 'POST':
+        # Button requests
+        if request.form.get('capture') == 'Capture':
+            process.capture = 1
+        elif request.form.get('grey') == 'Grey':
+            process.grey = not process.grey
+        elif request.form.get('negative') == 'Negativ':
+            process.negative = not process.negative
+
+    elif request.method == 'GET':
+        return render_template('index.html')
+    return render_template('index.html')
+
+
+
+if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     app.run(debug=True, host='0.0.0.0', port=port)
+    #app.run()
 
+process.cam.release()
+destroyAllWindows()
