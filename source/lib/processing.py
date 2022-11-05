@@ -1,6 +1,7 @@
 import cv2 as cv
 from datetime import datetime
 from os import path
+import lib.detection as detection
 
 
 global grey, capture, negative
@@ -9,6 +10,8 @@ grey = 0
 negative = 0
 cam = cv.VideoCapture(0) # 0 for system cam
 
+# init object of detection
+md = detection.MDetection()
 
 def frames():
     global capture
@@ -27,6 +30,9 @@ def frames():
             if (capture):
                 capture=0 # reset var
                 save_capture('capture', frame)
+
+            # Motion detection. Happens always
+            md.motion_detection(frame)
 
             try:
                 # Encode frame into memory buffer then to array of bytes
