@@ -1,71 +1,49 @@
-from copyreg import constructor
-from datetime import datetime
 import cv2 as cv
-import os
 
 
-global neg,capture,motion
+class MDetection:
+
+    def __init__(self):
+        self.static_background = None
 
 
-camera = cv.VideoCapture(0)
+    def motion_detection(self,frame):
+        """
+        This function detects any motion on the camera
+        and contour the area of motion
+        Param:
+            - cam: Capture video variable of the imports capture var
+            - frame: frame of cam.read()
+        """
+        motion = False
 
+        # Convert frame to grey scale, then to GaussianBlur
+        grey = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
+        grey = cv.GaussianBlur(grey, (21,21), 0)
 
-def negative(frame):
-    """
-    This function applies a negative filter on the frame
-    """
-    return cv.bitwise_not(frame)
+        # Assign background. The motion detection is working with the second iteration
+        # after we have a previous frame to compare
+        if self.static_background is None:
+            self.static_background = grey
 
+        # Compare difference between static background and frame (grey)
+        frame_diff = cv.absdiff(self.static_background, grey)
 
-def capture(frame):
-    """
-    This function creates a capture of the current stream
-    """
-    capture=0
-    timestamp = datetime.now()
-    file_name = os.path.sep.join(['captures', "capture_{}.png".format(str(timestamp).replace(":",''))])
-    cv.imwrite(file_name, frame)
+        frame_thresh = cv.threshold(frame_diff, 30, 255, cv.THRESH_BINARY)[1]
+        frame_thresh = cv.dilate(frame_thresh, None, iterations=2)
 
+        # Get contour of motion
+        countours,_ = cv.findContours(frame_thresh.copy(), cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
 
-def detect_motion():
-    """
-    This function detects motion on the frame.
-    The detected areas will be contoured by a rectangle
-    """
-    while True:
-        check, frame = camera.read()
-
-        static_background = None
-        motion = 0
-
-        # convert to gray scale
-        gray_camera = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
-        # Convert grayed image to GaussianBlur
-        gray_camera = cv.GaussianBlur(gray_camera, (21,21), 0)
-
-        if static_background is None:
-            static_background = gray_camera
-            
-        # Get difference between background and current frame (GaussianBlur)
-        diff_frame = cv.absdiff(static_background, gray_camera)
-        
-        # If change is greater than 30 (between static background and current frame)
-        # it will show white
-        thresh_frame = (diff_frame, 30, 255, cv.THRESH_BINARY)[1]
-        thresh_frame = cv.dilate(thresh_frame, None, iterations=2)
-
-        # find contours of motion
-        contours,_ = cv.findContours(thresh_frame.copy(), cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
-
-        for c in contours:
+        for c in countours:
             if cv.contourArea(c) < 10000:
                 continue
-            motion = 1
+            motion = True
 
-            # making rectangle on frame
+            # Contour surrounded with rectangle
             (x,y,w,h) = cv.boundingRect(c)
-            cv.rectangle(frame, (x,y), (x+w, y+h), (0,255,0), 3)
+            cv.rectangle(frame, (x,y), (x+w, y+h), (0, 255, 0), thickness=3)
 
-detect_motion()
-
-camera.release()
+            cv.putText(frame, '!', (20,30), cv.FONT_HERSHEY_SIMPLEX, \
+                        1, (20,20,255), 2)
+            cv.imshow('video',frame) # display text
