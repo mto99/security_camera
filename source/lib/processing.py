@@ -3,23 +3,20 @@ from datetime import datetime
 from os import path
 
 
+global grey, capture, negative
 capture = 0
-grey=0
-negative=0
+grey = 0
+negative = 0
 cam = cv.VideoCapture(0) # 0 for system cam
 
 
 def frames():
-    global capture,grey,negative
+    global capture
 
     while True:
         # check if cam is available
         success, frame = cam.read()
         if success:
-
-            if (capture):
-                capture=0 # reset var
-                save_capture('capture', frame)
 
             if (grey):
                 frame = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
@@ -27,15 +24,18 @@ def frames():
             if (negative):
                 frame = cv.bitwise_not(frame)
 
+            if (capture):
+                capture=0 # reset var
+                save_capture('capture', frame)
 
             try:
                 # Encode frame into memory buffer then to array of bytes
-                ret, buffer = cv.imencode('.jpg', cv.flip(frame,1))
+                _, buffer = cv.imencode('.jpg', cv.flip(frame,1))
                 frame = buffer.tobytes()
                 # Adjust frame to a format, needed for a http response
-                yield(b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
-            except Exception as ex:
-                print(ex)
+                yield(b'--frame\r\n'
+                        b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+            except Exception:
                 pass
 
         else:
@@ -59,4 +59,4 @@ def save_capture(method:str, frame):
     elif method == "detect":
         path = "/app/images/detected/"
 
-    cv.imwrite(path.join(path, filename), frame)
+    cv.imwrite(path.join([path, filename]), frame)
