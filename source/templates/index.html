@@ -22,7 +22,7 @@
         }
 
         .buttons_form{
-            /*margin: 20px 0;*/
+            margin: 20px 0;
         }
 
         .bttn{
@@ -39,8 +39,6 @@
             cursor: pointer;
             transition: 0.5s;
         }
-
-
     </style>
 </head>
 
@@ -55,12 +53,11 @@
 			<input class="bwhite bttn" type="submit" value="Capture" name="capture"/>
 			<input class="bwhite bttn" type="submit" value="Grey" name="grey" />
 			<input class="bwhite bttn" type="submit" value="Negative" name="negative"/>
-
 		</form>
     </div>
 
     <div>
-        <img src="{{ url_for('camera') }}" height="auto">
+        <img src="{{ url_for('camera') }}" alt="Camera is not available now. :(" height="auto">
     </div>
 
 </body>
