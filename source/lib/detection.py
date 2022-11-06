@@ -4,7 +4,7 @@ import cv2 as cv
 class MDetection:
 
     def __init__(self):
-        self.static_background = None
+        self.prev_background = None
 
 
     def motion_detection(self,frame):
@@ -15,7 +15,6 @@ class MDetection:
             - cam: Capture video variable of the imports capture var
             - frame: frame of cam.read()
         """
-        motion = False
 
         # Convert frame to grey scale, then to GaussianBlur
         grey = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
@@ -23,13 +22,17 @@ class MDetection:
 
         # Assign background. The motion detection is working with the second iteration
         # after we have a previous frame to compare
-        if self.static_background is None:
-            self.static_background = grey
+        if self.prev_background is None:
+            self.prev_background = grey
+            
 
-        # Compare difference between static background and frame (grey)
-        frame_diff = cv.absdiff(self.static_background, grey)
+        # Compare difference between prev_background (previous frame) and current frame (grey)
+        frame_diff = cv.absdiff(self.prev_background, grey)
 
-        frame_thresh = cv.threshold(frame_diff, 30, 255, cv.THRESH_BINARY)[1]
+        # Assign current frame to prev_background
+        self.prev_background = grey
+
+        frame_thresh = cv.threshold(frame_diff, 20, 255, cv.THRESH_BINARY)[1]
         frame_thresh = cv.dilate(frame_thresh, None, iterations=2)
 
         # Get contour of motion
@@ -38,7 +41,6 @@ class MDetection:
         for c in countours:
             if cv.contourArea(c) < 10000:
                 continue
-            motion = True
 
             # Contour surrounded with rectangle
             (x,y,w,h) = cv.boundingRect(c)
