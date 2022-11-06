@@ -1,7 +1,8 @@
 from flask import Flask, render_template, Response, request
-import os
+from os import environ, walk, getcwd
 from cv2 import destroyAllWindows
 import lib.processing as process
+import numpy as np
 
 
 app = Flask(__name__, template_folder='./templates')
@@ -34,13 +35,36 @@ def button_request():
         return render_template('index.html')
     return render_template('index.html')
 
+
+@app.route('/captured_images')
+def get_cap_images():
+    return render_template('cap_images.html')
+
+
 @app.route('/images')
 def get_images():
     return render_template('images.html')
 
 
+@app.route('/images_request')
+def requ_images():
+    """
+    Get all filenames and return it
+    """
+    f =[]
+    im_dir = "source/static/"
+    # im_dir = "/app/images/detected/"
+    for i in walk(im_dir):
+        f.extend(i)
+    print(getcwd())
+    print(f)
+    joined = ','.join(f[-1])
+    lst_joined = [joined]
+    return Response(lst_joined)
+
+
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))
+    port = int(environ.get('PORT', 5000))
     app.run(debug=True, host='0.0.0.0', port=port)
     #app.run()
 

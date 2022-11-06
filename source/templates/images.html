@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<body style="background-color: rgb(30, 209, 141);">
+    <span>Go to <a href="/">camera</a> or <a href="/captured_images">captured images</a></span>
+
+    <h2 style="color: whitesmoke; font-family: Arial, Helvetica, sans-serif;margin: 10px;">
+        Images where motion detected 
+    </h2>
+
+    <div class="content" style="display: flex; flex-wrap: wrap;">
+        <!--Images will be append here-->    
+    </div>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>
+        const dir_name = "../static/detected/";// "C:/Users/MTO/Desktop/IM/";
+
+        $.ajax({
+            url: "/images_request",
+            success: function(data){
+                // Split string into array
+                var img_names_arr = $(data)['selector'].split(",");
+                console.log(window.location);
+                for (i in img_names_arr){
+                    var abs_filepath = dir_name+img_names_arr[i];
+                    console.log(abs_filepath);
+
+                    var element =   "<div style='display:flex; flex-direction:column; padding: 10px; '>" +
+                                    "<img src='"+ abs_filepath +"' alt='image' " +
+                                        "style='width: 300px;'/>" +
+                                    "<span style='color: black; font-size:15px; margin-top:5px;'>"+img_names_arr[i]+"</span>" +
+                                    "</div>";
+                    console.log(element);
+                    $('.content').append(element);
+                }
+
+            }
+        });
+    
+    </script>
+
+
+
+</body>
+</html>
