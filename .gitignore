@@ -1,2 +1,3 @@
 __pycache__
-source/templates/static/images
+source/static/captured/
+source/static/detected/
