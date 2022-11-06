@@ -63,6 +63,19 @@ def requ_images():
     return Response(lst_joined)
 
 
+@app.route('/captured_images_request')
+def request_captured():
+    f = []
+    im_dir = "source/static/captured"
+    for i in walk(im_dir):
+        f.extend(i)
+    print(getcwd())
+    print(f)
+    joined = ','.join(f[-1])
+    lst_joined = [joined]
+    return Response(lst_joined)
+
+
 if __name__ == '__main__':
     port = int(environ.get('PORT', 5000))
     app.run(debug=True, host='0.0.0.0', port=port)
