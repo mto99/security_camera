@@ -42,8 +42,8 @@ class MDetection:
 
             # Contour surrounded with rectangle
             (x,y,w,h) = cv.boundingRect(c)
-            cv.rectangle(frame, (x,y), (x+w, y+h), (0, 255, 0), thickness=3)
+            cv.rectangle(frame, (x,y), (x+w, y+h), (0, 255, 0), thickness=2)
 
             cv.putText(frame, '!', (20,30), cv.FONT_HERSHEY_SIMPLEX, \
                         1, (20,20,255), 2)
-            cv.imshow('video',frame) # display text
+
