@@ -40,6 +40,19 @@
             cursor: pointer;
             transition: 0.5s;
         }
+
+        .form{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+
+        .forward{
+            color: whitesmoke;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 15px;
+            margin: 0 10px;
+        }
     </style>
 </head>
 
@@ -55,7 +68,7 @@
 			<input class="bwhite bttn" type="submit" value="Negative" name="negative"/>
 		</form>
 
-        <span>Go to images <a href="/images">images</a> or <a href="/captured_images">captured images</a></span>
+        <span class="forward buttons_form">Go to images <a href="/images">images</a> or <a href="/captured_images">captured images</a></span>
     </div>
 
     <div>
