@@ -59,10 +59,10 @@ def save_capture(method:str, frame):
                                             .replace(" ",'_')
                                             .replace(".","_"))
     filename = filename+".png"
-    filepath = "C:/Users/MTO/Desktop/IM/"
-    # if method=="capture":
-    #     path = "/app/images/captured/"
-    # elif method == "detect":
-    #     path = "/app/images/detected/"
+    filepath = ""
+    if method=="capture":
+        filepath = "source/static/captured/"
+    elif method == "detect":
+        filepath = "source/static/detected/"
     filepath = filepath+filename
     cv.imwrite(filepath, frame)
