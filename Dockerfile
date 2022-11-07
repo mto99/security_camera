@@ -5,6 +5,7 @@ RUN mkdir /app/security_camera
 
 ADD container/ /app/security_camera/container/
 ADD source/ /app/security_camera/source/
+ADD requirements.txt /app/security_camera/
 
 RUN ls -l security_camera
 
