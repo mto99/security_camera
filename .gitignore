@@ -1,1 +1,3 @@
 __pycache__
+source/static/captured/*.png
+source/static/detected/*.png
