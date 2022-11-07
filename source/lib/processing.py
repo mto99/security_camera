@@ -22,7 +22,7 @@ def frames():
 
             if (negative):
                 frame = cv.bitwise_not(frame)
-                cv.putText(frame,"N",(30,50),cv.FONT_HERSHEY_SIMPLEX, 1, (20,20,255), 2)
+                cv.putText(frame,"N",(50,50),cv.FONT_HERSHEY_SIMPLEX, 1, (20,20,255), 2)
 
             if (capture):
                 capture=0 # reset var
