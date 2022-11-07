@@ -5,7 +5,12 @@ img_name = "sec_cam:latest"
 #check if img exists
 if ! [[ $(docker images | grep $img_name) ]]
 then
-    exit -1
+    #give permission
+    chmod 777 container/*.sh
+
+    #build container
+    echo -e "[INFO] Image not found --> Building new image"
+    docker build -t sec_cam .
 fi
 
 #give rights to *.sh
