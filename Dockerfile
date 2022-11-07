@@ -3,8 +3,8 @@ WORKDIR /app
 
 RUN mkdir /app/security_camera
 
-ADD container/ /app/security_camera
-ADD source/ /app/security_camera
+ADD container/ /app/security_camera/container/
+ADD source/ /app/security_camera/source/
 
 RUN ls -l security_camera
 
