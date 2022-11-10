@@ -7,11 +7,13 @@ import numpy as np
 
 app = Flask(__name__, template_folder='./templates')
 
-#logged_in=False
+logged_in=False
 
 
 @app.route('/')
 def index():
+    if logged_in == False:
+        return render_template("login.html")
     return render_template('index.html')
 
 
