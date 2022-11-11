@@ -1,23 +1,24 @@
 <!DOCTYPE html>
 <html>
 
+<head>
+    <title>Login</title>
+    <link rel="shortcut icon" href="../static/favicon.ico">
+
+    <style>
+
+    </style>
+</head>
+
 <body>
 
-    <form method="post" action="" style="display: flex; flex-direction:column; width: 300px;">
-        <input class="username" type="text">
-        <input class="passwd" type="password">
-        <button type="submit" onclick="login()">Log in</button>
+
+    <form method="post" id="login_form" action="{{ url_for('login') }}" style="display: flex; flex-direction:column; width: 300px;">
+        <input class="username" name="username" type="text">
+        <input class="passwd" name="passwd" type="password">
+        <button type="submit" form="login_form">Log in</button>
     </form>
 
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script>
-        function login(){
-            var username = document.getElementsByClassName("username");
-            var passwd = document.getElementsByClassName("passwd");
-            console.log("Credits:" +username +passwd); //REMOVE AFTER
-        }
-
-    </script>
 </body>
 
 </html>
