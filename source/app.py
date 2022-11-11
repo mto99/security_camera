@@ -1,20 +1,37 @@
 from flask import Flask, render_template, Response, request
 from os import environ, walk, getcwd
 from cv2 import destroyAllWindows
+
 import lib.processing as process
-import numpy as np
+import lib.auth as auth
 
 
 app = Flask(__name__, template_folder='./templates')
 
-logged_in=False
-
 
 @app.route('/')
 def index():
-    if logged_in == False:
+    if auth.logged_in == False:
         return render_template("login.html")
     return render_template('index.html')
+
+
+@app.route("/login", methods=['POST','GET'])
+def login():
+    username = request.form.get('username')
+    password = request.form.get('passwd')
+    
+    password_hashed = auth.createHash(password)
+    if auth.authUser(username, password_hashed):
+        auth.logged_in = True
+        return render_template("index.html") # TODO RETURN RESPONSE
+    return render_template("login.html")
+
+
+@app.route("/logout")
+def logout():
+    auth.logged_in = False
+    return render_template("login.html")
 
 
 @app.route('/camera')
@@ -25,6 +42,8 @@ def camera():
 
 @app.route('/requests', methods=['POST','GET']) 
 def button_request():
+    if auth.logged_in == False:
+        return render_template("login.html")
 
     if request.method == 'POST':
         # Button requests
@@ -40,11 +59,16 @@ def button_request():
 
 @app.route('/captured_images')
 def get_cap_images():
+    if auth.logged_in == False:
+        return render_template("login.html")
+
     return render_template('cap_images.html')
 
 
 @app.route('/images')
 def get_images():
+    if auth.logged_in == False:
+        return render_template("login.html")
     return render_template('images.html')
 
 
@@ -53,6 +77,9 @@ def requ_images():
     """
     Get all filenames and return it
     """
+    if auth.logged_in == False:
+        return render_template("login.html")
+
     f =[]
     im_dir = "source/static/"
     # im_dir = "/app/images/detected/"
@@ -67,6 +94,9 @@ def requ_images():
 
 @app.route('/captured_images_request')
 def request_captured():
+    if auth.logged_in == False:
+        return render_template("login.html")
+
     f = []
     im_dir = "source/static/captured"
     for i in walk(im_dir):
