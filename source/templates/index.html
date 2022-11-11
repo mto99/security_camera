@@ -64,11 +64,12 @@
 
     <div class="form" >
         <form class="buttons_form" method="post" action="{{ url_for('button_request') }}">
-			<input class="bwhite bttn" type="submit" value="Capture" name="capture"/>
+			<input logoutclass="bwhite bttn" type="submit" value="Capture" name="capture"/>
 			<input class="bwhite bttn" type="submit" value="Negative" name="negative"/>
 		</form>
 
         <span class="forward buttons_form">Go to images <a href="/images">images</a> or <a href="/captured_images">captured images</a></span>
+        <span><a href="/logout">Logout</a></span>
     </div>
 
     <div>
