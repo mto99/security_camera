@@ -85,8 +85,7 @@ def requ_images():
     # im_dir = "/app/images/detected/"
     for i in walk(im_dir):
         f.extend(i)
-    print(getcwd())
-    print(f)
+    f[-1].remove(".gitkeep")
     joined = ','.join(f[-1])
     lst_joined = [joined]
     return Response(lst_joined)
@@ -101,8 +100,7 @@ def request_captured():
     im_dir = "source/static/captured"
     for i in walk(im_dir):
         f.extend(i)
-    print(getcwd())
-    print(f)
+    f[-1].remove(".gitkeep")
     joined = ','.join(f[-1])
     lst_joined = [joined]
     return Response(lst_joined)
