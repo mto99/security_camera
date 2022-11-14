@@ -49,7 +49,7 @@ def button_request():
         # Button requests
         if request.form.get('capture') == 'Capture':
             process.capture = 1
-        elif request.form.get('negative') == 'Negativ':
+        elif request.form.get('negative') == 'Negative':
             process.negative = not process.negative
 
     elif request.method == 'GET':
