@@ -13,7 +13,6 @@ RUN apt-get -y install --no-install-recommends \
 	liblapack-dev \
 	libatlas-base-dev \
 	libhdf5-dev \
-	libhdf5-100 \
 	pkg-config \
 	python3 \
 	python3-dev \
