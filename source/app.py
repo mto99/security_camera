@@ -11,27 +11,27 @@ app = Flask(__name__, template_folder='./templates')
 
 @app.route('/')
 def index():
-    if auth.logged_in == False:
-        return render_template("login.html")
+    #if auth.logged_in == False:
+    #    return render_template("login.html")
     return render_template('index.html')
 
 
-@app.route("/login", methods=['POST','GET'])
-def login():
-    username = request.form.get('username')
-    password = request.form.get('passwd')
+# @app.route("/login", methods=['POST','GET'])
+# def login():
+#     username = request.form.get('username')
+#     password = request.form.get('passwd')
     
-    password_hashed = auth.createHash(password)
-    if auth.authUser(username, password_hashed):
-        auth.logged_in = True
-        return render_template("index.html") # TODO RETURN RESPONSE
-    return render_template("login.html")
+#     password_hashed = auth.createHash(password)
+#     if auth.authUser(username, password_hashed):
+#         auth.logged_in = True
+#         return render_template("index.html") # TODO RETURN RESPONSE
+#     return render_template("login.html")
 
 
-@app.route("/logout")
-def logout():
-    auth.logged_in = False
-    return render_template("login.html")
+# @app.route("/logout")
+# def logout():
+#     auth.logged_in = False
+#     return render_template("login.html")
 
 
 @app.route('/camera')
@@ -42,8 +42,8 @@ def camera():
 
 @app.route('/requests', methods=['POST','GET']) 
 def button_request():
-    if auth.logged_in == False:
-        return render_template("login.html")
+    # if auth.logged_in == False:
+    #     return render_template("login.html")
 
     if request.method == 'POST':
         # Button requests
@@ -59,16 +59,16 @@ def button_request():
 
 @app.route('/captured_images')
 def get_cap_images():
-    if auth.logged_in == False:
-        return render_template("login.html")
+    # if auth.logged_in == False:
+    #     return render_template("login.html")
 
     return render_template('cap_images.html')
 
 
 @app.route('/images')
 def get_images():
-    if auth.logged_in == False:
-        return render_template("login.html")
+    # if auth.logged_in == False:
+    #     return render_template("login.html")
     return render_template('images.html')
 
 
@@ -77,8 +77,8 @@ def requ_images():
     """
     Get all filenames and return it
     """
-    if auth.logged_in == False:
-        return render_template("login.html")
+    # if auth.logged_in == False:
+    #     return render_template("login.html")
 
     f =[]
     im_dir = "source/static/"
@@ -93,8 +93,8 @@ def requ_images():
 
 @app.route('/captured_images_request')
 def request_captured():
-    if auth.logged_in == False:
-        return render_template("login.html")
+    # if auth.logged_in == False:
+    #     return render_template("login.html")
 
     f = []
     im_dir = "source/static/captured"
@@ -113,3 +113,4 @@ if __name__ == '__main__':
 
 process.cam.release()
 destroyAllWindows()
+print("All windows closed.")
