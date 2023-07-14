@@ -37,7 +37,7 @@ def index():
 @app.route('/camera')
 def camera():
     return Response(process.frames(), \
-                    mimetype='multipart/x-mixed-replace; boundary=frame$')
+                    mimetype='multipart/x-mixed-replace; boundary=frame', direct_passthrough=True)
 
 
 @app.route('/requests', methods=['POST','GET']) 
