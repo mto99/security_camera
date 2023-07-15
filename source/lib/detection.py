@@ -46,6 +46,7 @@ class MDetection:
             # Contour surrounded with rectangle
             (x,y,w,h) = cv.boundingRect(c)
             cv.rectangle(frame, (x,y), (x+w, y+h), (0, 255, 0), thickness=2)
+            print(f"COORDINATES - X: {x} | X2: {x+w}")
 
             process.save_capture('detect',frame)
 
