@@ -9,6 +9,9 @@ capture = 0
 negative = 0
 cam = cv.VideoCapture(0) # 0 for system cam
 
+# get videocapture width
+capwidth = cam.get(cv.CAP_PROP_FRAME_WIDTH) # float
+
 # init object of detection
 md = detection.MDetection()
 
@@ -18,6 +21,7 @@ def frames():
     while True:
         # check if cam is available
         success, frame = cam.read()
+        print(f"FRAME: {frame}")
         if success:
 
             if (negative):
