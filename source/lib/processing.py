@@ -12,8 +12,9 @@ cam = cv.VideoCapture(0) # 0 for system cam
 # get videocapture width
 capwidth = cam.get(cv.CAP_PROP_FRAME_WIDTH) # float
 
-# init object of detection
+# init object of class detection
 md = detection.MDetection()
+
 
 def frames():
     global capture
@@ -33,7 +34,7 @@ def frames():
                 save_capture('capture', frame)
 
             # Motion detection. Happens always
-            md.motion_detection(frame)
+            md.motion_detection(frame, capwidth)
 
             try:
                 # Encode frame into memory buffer then to array of bytes

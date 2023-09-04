@@ -1,14 +1,19 @@
 import cv2 as cv
 import lib.processing as process
+import lib.servo as servo
+
+
+servomotor = servo.ServoCam()
 
 
 class MDetection:
 
     def __init__(self):
         self.prev_background = None
+        self.angle = 90
 
 
-    def motion_detection(self,frame):
+    def motion_detection(self,frame, capwidth):
         """
         This function detects any motion on the camera
         and contour the area of motion
@@ -47,6 +52,31 @@ class MDetection:
             (x,y,w,h) = cv.boundingRect(c)
             cv.rectangle(frame, (x,y), (x+w, y+h), (0, 255, 0), thickness=2)
             print(f"COORDINATES - X: {x} | X2: {x+w}")
+
+            # get center on x-axis of countour
+            contour_left = x
+            contour_right = x+w
+
+            # divide frame in 3 parts. The left, center and right part.
+            # So it will be two broders: left and right
+            left_border = capwidth/3
+            right_border = capwidth/3*2
+            
+            # check where the contour is and define angle
+            if contour_left < left_border and contour_right > right_border: # inleft and right
+                self.angle = 90
+            elif contour_left < left_border and contour_right < right_border: # in left
+                if self.angle != 0:
+                    self.angle-=10
+            elif contour_left > left_border and contour_right > right_border: # in right
+                if self.angle != 180:
+                    self.angle+=10
+            else:
+                pass
+
+            # rotate camera
+            servomotor.setAngle(self.angle)
+            
 
             process.save_capture('detect',frame)
 
