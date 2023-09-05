@@ -4,6 +4,8 @@ from cv2 import destroyAllWindows
 
 import lib.processing as process
 import lib.auth as auth
+import lib.detection as detection
+import lib.servo as servo
 
 
 app = Flask(__name__, template_folder='./templates')
@@ -34,10 +36,28 @@ def index():
 #     return render_template("login.html")
 
 
+@app.route('/control')
+def control():
+    angle = detection.MDetection().angle
+    if request.method == 'POST':
+        if request.form.get('left') and angle >= 10:
+            detection.servomotor.setAngle(angle-10)
+        elif request.form.get('right') and angle <= 170:
+            detection.servomotor.setAngle(angle+10)
+        elif request.form.get('idle'):
+            detection.servomotor.setAngle(servo.IDLE_ANGLE)
+        else:
+            pass
+    else:
+        return render_template('index.html')
+    return render_template('index.html')
+
+
 @app.route('/camera')
 def camera():
     return Response(process.frames(), \
-                    mimetype='multipart/x-mixed-replace; boundary=frame', direct_passthrough=True)
+                    mimetype='multipart/x-mixed-replace; boundary=frame', \
+                    direct_passthrough=True)
 
 
 @app.route('/requests', methods=['POST','GET']) 
@@ -107,6 +127,13 @@ def request_captured():
 
 
 if __name__ == '__main__':
+    # Init gpio for servo
+    
+    # Start up
+    # -> idle servo
+    # -> free port
+
+    # Start server
     port = int(environ.get('PORT', 5000))
     app.run(debug=False, host='0.0.0.0', port=port)
     #app.run()
