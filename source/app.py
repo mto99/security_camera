@@ -40,11 +40,11 @@ def index():
 def control():
     angle = detection.MDetection().angle
     if request.method == 'POST':
-        if request.form.get('left') and angle >= 10:
+        if request.form.get('left') == "Left" and angle >= 10:
             detection.servomotor.setAngle(angle-10)
-        elif request.form.get('right') and angle <= 170:
+        elif request.form.get('right') == "Right" and angle <= 170:
             detection.servomotor.setAngle(angle+10)
-        elif request.form.get('idle'):
+        elif request.form.get('idle') == "Idle":
             detection.servomotor.setAngle(servo.IDLE_ANGLE)
         else:
             pass
