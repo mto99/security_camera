@@ -36,7 +36,7 @@ def index():
 #     return render_template("login.html")
 
 
-@app.route('/control')
+@app.route('/control', methods=['POST','GET'])
 def control():
     angle = detection.MDetection().angle
     if request.method == 'POST':
