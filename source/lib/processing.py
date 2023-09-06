@@ -22,7 +22,7 @@ def frames():
     while True:
         # check if cam is available
         success, frame = cam.read()
-        print(f"FRAME: {frame}")
+        #print(f"FRAME: {frame}") # for debuging
         if success:
 
             if (negative):
