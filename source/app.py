@@ -38,18 +38,18 @@ def index():
 
 @app.route('/control', methods=['POST','GET'])
 def control():
-    angle = detection.MDetection().angle
-    print(f"Check 1: {angle}")
+    #angle = detection.MDetection().angle
+    print(f"Check 1: {servo.current_angle}")
     if request.method == 'POST':
-        if request.form.get('left') == "Left" and angle >= 10:
-            angle -= 10
+        if request.form.get('left') == "Left" and servo.current_angle >= 10:
+            servo.current_angle -= 10
             detection.servomotor.setAngle(angle)
-        elif request.form.get('right') == "Right" and angle <= 170:
-            angle += 10
-            print(f"Check 2: {angle}")
+        elif request.form.get('right') == "Right" and servo.current_angle <= 170:
+            servo.current_angle += 10
+            print(f"Check 2: {servo.current_angle}")
             detection.servomotor.setAngle(angle)
         elif request.form.get('idle') == "Idle":
-            angle = servo.IDLE_ANGLE
+            servo.current_angle = servo.IDLE_ANGLE
             detection.servomotor.setAngle(angle)
         else:
             pass

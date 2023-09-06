@@ -7,6 +7,8 @@ MIN_VALUE = 0
 SERVO_PIN = 3
 
 IDLE_ANGLE = 90
+current_angle = IDLE_ANGLE
+
 
 class ServoCam:
 

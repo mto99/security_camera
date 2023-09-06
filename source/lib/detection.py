@@ -10,7 +10,7 @@ class MDetection:
 
     def __init__(self):
         self.prev_background = None
-        self.angle = 90
+        self.angle = servo.current_angle
 
 
     def motion_detection(self,frame, capwidth):
@@ -64,18 +64,18 @@ class MDetection:
             
             # check where the contour is and define angle
             if contour_left < left_border and contour_right > right_border: # inleft and right
-                self.angle = 90
+                servo.current_angle = 90
             elif contour_left < left_border and contour_right < right_border: # in left
-                if self.angle != 0:
-                    self.angle-=10
+                if servo.current_angle != 0:
+                    servo.current_angle-=10
             elif contour_left > left_border and contour_right > right_border: # in right
-                if self.angle != 180:
-                    self.angle+=10
+                if servo.current_angle != 180:
+                    servo.current_angle+=10
             else:
                 pass
 
             # rotate camera
-            servomotor.setAngle(self.angle)
+            servomotor.setAngle(servo.current_angle)
             
 
             process.save_capture('detect',frame)
