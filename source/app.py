@@ -43,14 +43,14 @@ def control():
     if request.method == 'POST':
         if request.form.get('left') == "Left" and servo.current_angle >= 10:
             servo.current_angle -= 10
-            detection.servomotor.setAngle(angle)
+            detection.servomotor.setAngle(servo.current_angle)
         elif request.form.get('right') == "Right" and servo.current_angle <= 170:
             servo.current_angle += 10
             print(f"Check 2: {servo.current_angle}")
-            detection.servomotor.setAngle(angle)
+            detection.servomotor.setAngle(servo.current_angle)
         elif request.form.get('idle') == "Idle":
             servo.current_angle = servo.IDLE_ANGLE
-            detection.servomotor.setAngle(angle)
+            detection.servomotor.setAngle(servo.current_angle)
         else:
             pass
     else:
