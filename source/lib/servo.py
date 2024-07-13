@@ -4,7 +4,7 @@ from time import sleep
 MAX_VALUE = 100
 MIN_VALUE = 0
 
-SERVO_PIN = 3
+SERVO_PIN = 3 # physical pin number
 
 IDLE_ANGLE = 90
 current_angle = IDLE_ANGLE

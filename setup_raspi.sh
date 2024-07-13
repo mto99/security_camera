@@ -34,7 +34,7 @@ sudo apt-get install -y uv4l-tc358743-extras
 
 sudo raspi-config
 
-sudo rpi-update
+sudo rpi-update -y
 
 uv4l --driver raspicam --auto-video_nr --width 640 --height 480 --encoding jpeg
 dd if=/dev/video0 of=snapshot.jpeg bs=11M count=1

@@ -135,7 +135,7 @@ if __name__ == '__main__':
     # Init gpio for servo
     
     # Start up
-    # -> idle servo
+    detection.servomotor.setAngle(servo.IDLE_ANGLE)
     # -> free port
 
     # Start server
