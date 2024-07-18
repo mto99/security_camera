@@ -41,17 +41,17 @@ def frames():
             md.motion_detection(frame, capwidth)
 
             #print(f"tTIME: {int(tTime)}  |  TIME: {time()} +1: {int(time()+1.0)}" ) 
-            if (int(time()) >= int(tTime+1.0)):
-                print("TRUE", end="", flush=True)
-                try:
-                    # Encode frame into memory buffer then to array of bytes
-                    _, buffer = cv.imencode('.jpg', frame)
-                    frame = buffer.tobytes()
-                    # Adjust frame to a format, needed for a http response
-                    yield(b'--frame\r\n'
-                            b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
-                except Exception:
-                    pass
+            # if (int(time()) >= int(tTime+1.0)):
+            #     print("TRUE", end="", flush=True)
+            try:
+                # Encode frame into memory buffer then to array of bytes
+                _, buffer = cv.imencode('.jpg', frame)
+                frame = buffer.tobytes()
+                # Adjust frame to a format, needed for a http response
+                yield(b'--frame\r\n'
+                        b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+            except Exception:
+                pass
   
             tTime = time()
             
