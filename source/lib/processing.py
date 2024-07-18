@@ -40,7 +40,7 @@ def frames():
             # Motion detection. Happens always
             md.motion_detection(frame, capwidth)
 
-            if (tTime >= time+1):
+            if (tTime >= time()+1.0):
                 try:
                     # Encode frame into memory buffer then to array of bytes
                     _, buffer = cv.imencode('.jpg', frame)
