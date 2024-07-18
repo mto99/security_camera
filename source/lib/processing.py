@@ -40,7 +40,9 @@ def frames():
             # Motion detection. Happens always
             md.motion_detection(frame, capwidth)
 
-            if (tTime+1.0 <= time()):
+            #print(f"tTIME: {int(tTime)}  |  TIME: {time()} +1: {int(time()+1.0)}" ) 
+            if (int(time()) >= int(tTime+1.0)):
+                print("TRUE", end="", flush=True)
                 try:
                     # Encode frame into memory buffer then to array of bytes
                     _, buffer = cv.imencode('.jpg', frame)
@@ -50,7 +52,7 @@ def frames():
                             b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
                 except Exception:
                     pass
-
+  
             tTime = time()
             
             
