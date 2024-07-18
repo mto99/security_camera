@@ -2,12 +2,14 @@ import cv2 as cv
 from datetime import datetime
 from os import path
 import lib.detection as detection
+from time import time
 
 
 global capture, negative
 capture = 0
 negative = 0
 cam = cv.VideoCapture(0) # 0 for system cam
+tTime = time()
 
 # get videocapture width
 capwidth = cam.get(cv.CAP_PROP_FRAME_WIDTH) # float
@@ -19,9 +21,11 @@ md = detection.MDetection()
 def frames():
     global capture
 
-    while True:
+    while cam.isOpened:
         # check if cam is available
         success, frame = cam.read()
+        # resize 
+        #frame = cv.resize(frame, (int(140), int(140)))
         #print(f"FRAME: {frame}") # for debuging
         if success:
 
@@ -36,15 +40,20 @@ def frames():
             # Motion detection. Happens always
             md.motion_detection(frame, capwidth)
 
-            try:
-                # Encode frame into memory buffer then to array of bytes
-                _, buffer = cv.imencode('.jpg', cv.flip(frame,1))
-                frame = buffer.tobytes()
-                # Adjust frame to a format, needed for a http response
-                yield(b'--frame\r\n'
-                        b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
-            except Exception:
-                pass
+            if (tTime >= time+1):
+                try:
+                    # Encode frame into memory buffer then to array of bytes
+                    _, buffer = cv.imencode('.jpg', frame)
+                    frame = buffer.tobytes()
+                    # Adjust frame to a format, needed for a http response
+                    yield(b'--frame\r\n'
+                            b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+                except Exception:
+                    pass
+
+            tTime = time()
+            
+            
 
         else:
             pass
