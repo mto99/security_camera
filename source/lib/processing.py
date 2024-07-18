@@ -19,7 +19,7 @@ md = detection.MDetection()
 
 
 def frames():
-    global capture
+    global capture, tTime
 
     while cam.isOpened:
         # check if cam is available
